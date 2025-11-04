@@ -38,6 +38,12 @@ class Settings(BaseSettings):
     # CORS
     CORS_ORIGINS: Set[str]
 
+    # Gmail API
+    GMAIL_TOKEN: str | None = None
+
+    # Anthropic API
+    ANTHROPIC_API_KEY: str | None = None
+
     model_config = SettingsConfigDict(
         env_file=".env", env_file_encoding="utf-8", extra="ignore"
     )
