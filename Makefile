@@ -12,13 +12,22 @@ help:
 	@awk '/^[a-zA-Z_-]+:/{split($$1, target, ":"); print "  " target[1] "\t" substr($$0, index($$0,$$2))}' $(MAKEFILE_LIST)
 
 # Backend commands
-.PHONY: start-backend test-backend
+.PHONY: start-backend test-backend migrate-db generate-migration seed-db
 
 start-backend: ## Start the backend server with FastAPI and hot reload
 	cd $(BACKEND_DIR) && ./start.sh
 
 test-backend: ## Run backend tests using pytest
 	cd $(BACKEND_DIR) && uv run pytest
+
+migrate-db: ## Run database migrations using Alembic
+	cd $(BACKEND_DIR) && uv run alembic upgrade head
+
+generate-migration: ## Generate a new migration schema. Usage: make generate-migration migration_name="add users"
+	cd $(BACKEND_DIR) && uv run alembic revision --autogenerate -m "$(migration_name)"
+
+seed-db: ## Seed the database with test user (test@example.com / TestPassword123#)
+	cd $(BACKEND_DIR) && PYTHONPATH=. uv run python3 commands/seed_db.py
 
 
 # Frontend commands

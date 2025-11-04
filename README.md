@@ -47,15 +47,48 @@ This template features a carefully selected set of technologies to ensure effici
 - shadcn/ui – Prebuilt React components with Tailwind CSS.
 - OpenAPI-fetch – Fully typed client generation from the OpenAPI schema.
 - UV – Simplified dependency management and packaging.
-- Docker Compose – Consistent environments for development and production.
+- SQLite – Lightweight, zero-configuration database (Docker optional for development)
+- Docker Compose – Optional containerized environments for development and production.
 - Pre-commit hooks – Automated code linting, formatting, and validation before commits.
 - Vercel Deployment – Serverless backend and scalable frontend, deployable with minimal configuration.
 
 This is a partial list of the technologies included in the template. For a complete overview, visit our [Technology selection](https://vintasoftware.github.io/nextjs-fastapi-template/technology-selection/) page.
 
-## Get Started
+## Quick Start
 
-To use this template, visit our [Get Started](https://vintasoftware.github.io/nextjs-fastapi-template/get-started/) and follow the steps.
+### Automated Setup (Recommended)
+
+Run the automated setup script to get started in seconds:
+
+```bash
+./setup.sh
+```
+
+This script will:
+- ✓ Check for required tools (uv, Node.js, pnpm)
+- ✓ Create environment files with auto-generated secrets
+- ✓ Install all dependencies
+- ✓ Set up the SQLite database and run migrations
+- ✓ Generate the OpenAPI schema and TypeScript client
+
+Then start the application:
+
+```bash
+# Terminal 1 - Backend
+make start-backend
+
+# Terminal 2 - Frontend
+make start-frontend
+```
+
+Visit:
+- **Backend API**: http://localhost:8000
+- **API Docs**: http://localhost:8000/docs
+- **Frontend**: http://localhost:3000
+
+### Manual Setup
+
+If you prefer manual setup, visit our [Get Started](https://vintasoftware.github.io/nextjs-fastapi-template/get-started/) guide.
 
 ## Using the template? Let's talk!
 

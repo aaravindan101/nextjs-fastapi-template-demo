@@ -20,15 +20,15 @@ After that, install pnpm by running:
 npm install -g pnpm
 ```
 
-#### 3. Docker
-Docker is needed to run the project in a containerized environment. Follow the appropriate installation guide:
+#### 3. Docker (Optional)
+Docker is optional for this project. The backend now uses SQLite, which doesn't require Docker. However, Docker can still be used if you prefer containerized development. Follow the appropriate installation guide:
 
 - [Install Docker for Mac](https://docs.docker.com/docker-for-mac/install/)
 - [Install Docker for Windows](https://docs.docker.com/docker-for-windows/install/)
 - [Get Docker CE for Linux](https://docs.docker.com/install/linux/docker-ce/)
 
-#### 4. Docker Compose
-Ensure `docker-compose` is installed. Refer to the [Docker Compose installation guide](https://docs.docker.com/compose/install/).
+#### 4. Docker Compose (Optional)
+Only needed if you plan to use Docker. Refer to the [Docker Compose installation guide](https://docs.docker.com/compose/install/).
 
 ### Setting Up Environment Variables
 
@@ -43,9 +43,9 @@ You will only need to update the secret keys. You can use the following command 
    python3 -c "import secrets; print(secrets.token_hex(32))"
    ```
 
-- The DATABASE, MAIL, OPENAPI, CORS, and FRONTEND_URL settings are ready to use locally.
+- The DATABASE now uses SQLite (sqlite+aiosqlite:///./app.db) which doesn't require Docker or external services.
 
-- The DATABASE and MAIL settings are already configured in Docker Compose if you're using Docker.
+- The MAIL, OPENAPI, CORS, and FRONTEND_URL settings are ready to use locally.
 
 - The OPENAPI_URL setting is commented out. Uncommenting it will hide the /docs and openapi.json URLs, which is ideal for production.
 
@@ -58,17 +58,6 @@ Copy the `.env.example` files to `.env.local`. These values are unlikely to chan
    cd nextjs-frontend && cp .env.example .env.local
    ```
 
-### Running the Database
-Use Docker to run the database to avoid local installation issues. Build and start the database container:
-   ```bash
-   docker compose build db
-   docker compose up -d db
-   ```
-Run the following command to apply database migrations:
-   ```bash
-   make docker-migrate-db
-   ```
-
 ### Build the project (without Docker):
 To set the project environment locally, use the following commands:
 
@@ -78,6 +67,14 @@ Navigate to the `fastapi_backend` directory and run:
    ```bash
    uv sync
    ```
+
+After installing dependencies, set up the SQLite database by running migrations:
+   ```bash
+   make generate-migration migration_name="Initial schema"
+   make migrate-db
+   ```
+
+This will create the SQLite database file (`app.db`) with all necessary tables.
 
 #### Frontend
 Navigate to the `nextjs-frontend` directory and run:
@@ -122,5 +119,6 @@ Start the Next.js development server container:
 
 ## Important Considerations
 - **Environment Variables**: Ensure your `.env` files are up-to-date.
-- **Database Setup**: It is recommended to use Docker to run the database, even when running the backend and frontend locally, to simplify configuration and avoid potential conflicts.
-- **Consistency**: It is **not recommended** to switch between running the project locally and using Docker, as this may cause permission issues or unexpected problems. You can choose one method and stick with it.
+- **Database Setup**: The project now uses SQLite by default, which doesn't require Docker or external database services. The database file (`app.db`) will be created automatically when you run migrations.
+- **Docker**: Docker is now optional. You can run the entire project locally with just `uv` and `pnpm`, or use Docker if you prefer containerized development.
+- **Database File**: The SQLite database file (`app.db` and `test.db`) will be created in the `fastapi_backend` directory. Make sure to add these to `.gitignore` if not already present.

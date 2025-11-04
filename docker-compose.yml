@@ -4,8 +4,7 @@ services:
       context: fastapi_backend
     environment:
       - OPENAPI_OUTPUT_FILE=./shared-data/openapi.json
-      - DATABASE_URL=postgresql+asyncpg://postgres:password@db:5432/mydatabase
-      - TEST_DATABASE_URL=postgresql+asyncpg://postgres:password@db:5433/testdatabase
+      # Now using SQLite - DATABASE_URL is set in .env file
       - MAIL_SERVER=mailhog
     ports:
       - "8000:8000"
@@ -15,31 +14,31 @@ services:
       - ./fastapi_backend:/app
       - fastapi-venv:/app/.venv
       - ./local-shared-data:/app/shared-data
-    depends_on:
-      - db
-  db:
-    image: postgres:17
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydatabase
-    ports:
-      - "5432:5432"
-    networks:
-      - my_network
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-  db_test:
-    image: postgres:17
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: testdatabase
-    ports:
-      - "5433:5432"
-    networks:
-      - my_network
-    restart: always
+  # PostgreSQL services no longer needed with SQLite
+  # Uncomment below if you want to use PostgreSQL instead
+  # db:
+  #   image: postgres:17
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: password
+  #     POSTGRES_DB: mydatabase
+  #   ports:
+  #     - "5432:5432"
+  #   networks:
+  #     - my_network
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  # db_test:
+  #   image: postgres:17
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: password
+  #     POSTGRES_DB: testdatabase
+  #   ports:
+  #     - "5433:5432"
+  #   networks:
+  #     - my_network
+  #   restart: always
   frontend:
     build:
       context: ./nextjs-frontend
@@ -65,7 +64,7 @@ services:
       - my_network
 
 volumes:
-  postgres_data:
+  # postgres_data:  # No longer needed with SQLite
   nextjs-node-modules:
   fastapi-venv:
 

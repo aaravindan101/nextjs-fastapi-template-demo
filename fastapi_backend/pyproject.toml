@@ -7,7 +7,7 @@ requires-python = ">=3.12,<3.13"
 readme = "README.md"
 dependencies = [
     "fastapi[standard]>=0.115.0,<0.116",
-    "asyncpg>=0.29.0,<0.30",
+    "aiosqlite>=0.20.0,<0.21",
     "fastapi-users[sqlalchemy]>=13.0.0,<14",
     "pydantic-settings>=2.5.2,<3",
     "fastapi-mail>=1.4.1,<2",
