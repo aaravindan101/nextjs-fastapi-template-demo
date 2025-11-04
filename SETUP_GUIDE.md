@@ -144,9 +144,11 @@ pnpm run generate-client
 
 ```bash
 make start-backend          # Start the backend server
+make setup-test            # Verify setup completed successfully
 make test-backend          # Run backend tests
 make migrate-db            # Run database migrations
 make generate-migration    # Generate new migration (use: migration_name="description")
+make seed-db               # Seed database with test user
 ```
 
 ### Frontend

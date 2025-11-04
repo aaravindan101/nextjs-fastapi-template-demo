@@ -10,7 +10,6 @@ Usage:
 
 import asyncio
 import uuid
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from fastapi_users.password import PasswordHelper
 
